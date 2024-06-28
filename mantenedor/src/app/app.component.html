@@ -1,0 +1,63 @@
+
+<app-navbar></app-navbar>
+<!-- <router-outlet></router-outlet> -->
+
+<div class="mx-auto container p-4 text-center">
+  <h1>Lista de Tareas</h1>
+  <p>Mantenedor</p>
+
+  <div class="card-body p-4">
+    <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2" [formGroup]="tareaForm">
+      <div class="col-12">
+        <div data-mdb-input-init class="form-outline">
+          <input type="text" id="form1" class="form-control" placeholder="Introduzca Tarea" formControlName="descripcion"
+          [class.is-invalid]="tareaForm.get('descripcion')?.invalid && tareaForm.get('descripcion')?.touched">
+          <div
+          *ngIf="tareaForm.get('descripcion')?.invalid && (tareaForm.get('descripcion')?.touched || tareaForm.get('descripcion')?.dirty) ">
+          <small *ngIf="tareaForm?.get('descripcion')?.hasError('required')" class="text-danger">descripcion es requerido</small>
+        </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div data-mdb-input-init class="form-outline">
+          <select id="vigente" class="form-control" formControlName="vigente">
+            <option value="true">Vigente</option>
+            <option value="false">No Vigente</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12">
+        <button type="button" class="btn btn-primary" [value]="boton" (click)="agregarTarea()">{{boton}}</button>
+      </div>
+    </form>
+
+    <br>
+
+    <table class="table table-striped">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">identificador</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Fecha Creacion</th>
+          <th scope="col">Vigente</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tareas">
+          <td>{{item.identificador}}</td>
+          <td>{{item.descripcion}}</td>
+          <td>{{item.fechaCreacion | date:'M/d/yy, h:mm a'}}</td>
+          <td>{{item.vigente}}</td>
+          <td>
+            <button class="btn btn-danger" style="margin-right: 20px;" (click)="deleteTarea(item.identificador)">Eliminar</button>
+            <button class="btn btn-primary" (click)="updateTarea(item)"> Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
